@@ -1,0 +1,7 @@
+TYPO3:
+  Flow:
+    security:
+      authentication:
+        providers:
+          JwtAuthenticationProvider:
+            provider: Mw\JwtAuth\Security\Authentication\JwtAuthenticationProvider
