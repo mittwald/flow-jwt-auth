@@ -5,3 +5,14 @@ TYPO3:
         providers:
           JwtAuthenticationProvider:
             provider: Mw\JwtAuth\Security\Authentication\JwtAuthenticationProvider
+
+Mw:
+  JwtAuth:
+    security:
+      key: ~
+      keyUrl: https://identity.service.consul/key
+      algorithms:
+        - RS256
+    claimMapping:
+      roleField: ~
+      roles: {}
