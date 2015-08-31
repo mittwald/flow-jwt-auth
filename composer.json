@@ -1,9 +1,10 @@
 {
     "name": "mw/jwtauth",
     "type": "typo3-flow-package",
-    "description": "Add description here",
+    "description": "Authenticate users with JSON web tokens",
     "require": {
-        "typo3/flow": "*"
+        "typo3/flow": "*",
+        "firebase/php-jwt": "*"
     },
     "autoload": {
         "psr-0": {
