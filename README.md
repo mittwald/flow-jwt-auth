@@ -38,27 +38,31 @@ settings.
   
     1.  `Mw.JwtAuth.security.key` to directly specify the key:
     
-            Mw:
-              JwtAuth:
-                security:
-                  key: |
-                    -----BEGIN PUBLIC KEY-----
-                    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuurXQ9FbDxK9EQL9gw/f
-                    KJVdo/33j8zDOxemH6fV/KWp/fEMwez77GC3J5ze/A1o/ue4FVz/8fJ8PMGO3ag9
-                    drIHyWgs4FYBpQZ1BqA78b6nWJeJ8Zbsv71r+Bpb5UUJBBHZ85Sa13sl3ZN0L0E0
-                    XD/NYD1Sh31qoccZU57l6g4PWScxUZYGWc/OeT07HbUjaFzL/YpQZUKH+KoqoIOD
-                    UiZkf44ear4dGzNeR0UQ01VIZj7RaJ1uhAZVsNLoqPKGyjmgEZz70DDbMlxEXiMi
-                    Q/2Thd3bklr0IpZpL7JwHw9MrVS32NkustFgG6uYv/mvw10Zll9CCAUib3QIGlZV
-                    uQIDAQAB
-                    -----END PUBLIC KEY-----
+        ```yaml
+        Mw:
+          JwtAuth:
+            security:
+              key: |
+                -----BEGIN PUBLIC KEY-----
+                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuurXQ9FbDxK9EQL9gw/f
+                KJVdo/33j8zDOxemH6fV/KWp/fEMwez77GC3J5ze/A1o/ue4FVz/8fJ8PMGO3ag9
+                drIHyWgs4FYBpQZ1BqA78b6nWJeJ8Zbsv71r+Bpb5UUJBBHZ85Sa13sl3ZN0L0E0
+                XD/NYD1Sh31qoccZU57l6g4PWScxUZYGWc/OeT07HbUjaFzL/YpQZUKH+KoqoIOD
+                UiZkf44ear4dGzNeR0UQ01VIZj7RaJ1uhAZVsNLoqPKGyjmgEZz70DDbMlxEXiMi
+                Q/2Thd3bklr0IpZpL7JwHw9MrVS32NkustFgG6uYv/mvw10Zll9CCAUib3QIGlZV
+                uQIDAQAB
+                -----END PUBLIC KEY-----
+        ```
     
     2.  `Mw.JwtAuth.security.keyUrl` to specify a `fopen`-able URL from which
         the key can be retrieved:
        
-            Mw:
-              JwtAuth:
-                security:
-                  keyUrl: https://identity.service.consul/key
+        ```yaml
+        Mw:
+          JwtAuth:
+            security:
+              keyUrl: https://identity.service.consul/key
+        ```
   
     When you specify both settings, the `Mw.JwtAuth.security.key` setting will
     take precedence.
@@ -69,10 +73,12 @@ settings.
   
     Consider a JWT claim like the following:
     
-        {
-            "sub": "my-username",
-            "type": "customer"
-        }
+    ```json
+    {
+        "sub": "my-username",
+        "type": "customer"
+    }
+    ```
     
     By default, the `sub` claim will be used as account identifier for the Flow
     user. You can change this by setting the `Mw.JwtAuth.claimMapping.accountIdentifierField`
@@ -81,10 +87,12 @@ settings.
     Furthermore, you can configure which claim contains the user role and how
     to map claim values to known user roles:
     
-        Mw:
-          JwtAuth:
-            claimMapping:
-              roleField: type
-              roles:
-                customer: My.ExamplePackage:Customer
-                employee: My.ExamplePackage:Employee
+    ```yaml
+    Mw:
+      JwtAuth:
+        claimMapping:
+          roleField: type
+          roles:
+            customer: My.ExamplePackage:Customer
+            employee: My.ExamplePackage:Employee
+    ```
