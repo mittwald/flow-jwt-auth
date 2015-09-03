@@ -13,6 +13,13 @@ Mw:
       keyUrl: https://identity.service.consul/key
       algorithms:
         - RS256
+      tokenSources:
+        - from: header
+          name: X-Jwt
+        - from: cookie
+          name: JWT
+        - from: query
+          name: token
     claimMapping:
       roleField: ~
       roles: {}

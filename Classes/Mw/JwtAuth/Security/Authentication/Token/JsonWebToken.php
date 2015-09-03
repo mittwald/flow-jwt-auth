@@ -8,6 +8,12 @@ use TYPO3\Flow\Security\Authentication\Token\SessionlessTokenInterface;
 class JsonWebToken extends AbstractToken implements SessionlessTokenInterface {
 
 	/**
+	 * @var array
+	 * @Flow\Inject(setting="security.tokenSources")
+	 */
+	protected $tokenSources;
+
+	/**
 	 * Updates the authentication credentials, the authentication manager needs to authenticate this token.
 	 * This could be a username/password from a login controller.
 	 * This method is called while initializing the security context. By returning TRUE you
@@ -19,9 +25,29 @@ class JsonWebToken extends AbstractToken implements SessionlessTokenInterface {
 	 */
 	public function updateCredentials(ActionRequest $actionRequest) {
 		$httpRequest = $actionRequest->getHttpRequest();
-		if ($httpRequest->hasHeader('X-Jwt')) {
-			$token = $httpRequest->getHeader('X-Jwt');
+		$token = NULL;
 
+		foreach ($this->tokenSources as $tokenSource) {
+			$name = $tokenSource['name'];
+			if ($tokenSource['from'] == 'header') {
+				if ($httpRequest->hasHeader($name)) {
+					$token = $httpRequest->getHeader($name);
+					break;
+				}
+			} elseif ($tokenSource['from'] == 'cookie') {
+				if ($httpRequest->hasCookie($name)) {
+					$token = $httpRequest->getCookie($name);
+					break;
+				}
+			} elseif ($tokenSource['from'] == 'query') {
+				if ($httpRequest->hasArgument($name)) {
+					$token = $httpRequest->getArgument($name);
+					break;
+				}
+			}
+		}
+
+		if (NULL !== $token) {
 			$this->credentials['encoded'] = $token;
 			$this->setAuthenticationStatus(self::AUTHENTICATION_NEEDED);
 			return TRUE;
