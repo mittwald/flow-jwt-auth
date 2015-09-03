@@ -31,87 +31,93 @@ You can install this package using Composer:
 There are several settings that you need to configure in your TYPO3 Flow
 settings.
 
--   This package needs a key to authenticate tokens. This can either be a random
-    character string for tokens that use a symmetric authentication code (HMAC)
-    or an RSA public key. To configure this key, you can use one of two
-    settings:
-  
-    1.  `Mw.JwtAuth.security.key` to directly specify the key:
-    
-        ```yaml
-        Mw:
-          JwtAuth:
-            security:
-              key: |
-                -----BEGIN PUBLIC KEY-----
-                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuurXQ9FbDxK9EQL9gw/f
-                KJVdo/33j8zDOxemH6fV/KWp/fEMwez77GC3J5ze/A1o/ue4FVz/8fJ8PMGO3ag9
-                drIHyWgs4FYBpQZ1BqA78b6nWJeJ8Zbsv71r+Bpb5UUJBBHZ85Sa13sl3ZN0L0E0
-                XD/NYD1Sh31qoccZU57l6g4PWScxUZYGWc/OeT07HbUjaFzL/YpQZUKH+KoqoIOD
-                UiZkf44ear4dGzNeR0UQ01VIZj7RaJ1uhAZVsNLoqPKGyjmgEZz70DDbMlxEXiMi
-                Q/2Thd3bklr0IpZpL7JwHw9MrVS32NkustFgG6uYv/mvw10Zll9CCAUib3QIGlZV
-                uQIDAQAB
-                -----END PUBLIC KEY-----
-        ```
-    
-    2.  `Mw.JwtAuth.security.keyUrl` to specify a `fopen`-able URL from which
-        the key can be retrieved:
-       
-        ```yaml
-        Mw:
-          JwtAuth:
-            security:
-              keyUrl: https://identity.service.consul/key
-        ```
-  
-    When you specify both settings, the `Mw.JwtAuth.security.key` setting will
-    take precedence.
+### Verification key
 
--   You can also configure how the claims encoded in the JWT should be mapped
-    to the TYPO3 Flow user account. For instance, when the JWT claims contain a
-    field that describes a user type, you can map this on a TYPO3 Flow role.
+This package needs a key to authenticate tokens. This can either be a random
+character string for tokens that use a symmetric authentication code (HMAC)
+or an RSA public key. To configure this key, you can use one of two
+settings:
   
-    Consider a JWT claim like the following:
-    
-    ```json
-    {
-        "sub": "my-username",
-        "type": "customer"
-    }
-    ```
-    
-    By default, the `sub` claim will be used as account identifier for the Flow
-    user. You can change this by setting the `Mw.JwtAuth.claimMapping.accountIdentifierField`
-    option.
-    
-    Furthermore, you can configure which claim contains the user role and how
-    to map claim values to known user roles:
-    
-    ```yaml
-    Mw:
-      JwtAuth:
-        claimMapping:
-          roleField: type
-          roles:
-            customer: My.ExamplePackage:Customer
-            employee: My.ExamplePackage:Employee
-    ```
+1.  `Mw.JwtAuth.security.key` to directly specify the key:
 
--   You can also configure how the authentication provider should extract the
-    JWT from the HTTP request. A JWT can be contained within a cookie, a custom
-    request header or a query argument. You can configure the token sources
-    using the `Mw.JwtAuth.security.tokenSources`:
-     
     ```yaml
     Mw:
       JwtAuth:
         security:
-          tokenSources:
-            - from: header
-              name: X-Your-Custom-Header
-            - from: cookie
-              name: MyCookieName
+          key: |
+            -----BEGIN PUBLIC KEY-----
+            MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuurXQ9FbDxK9EQL9gw/f
+            KJVdo/33j8zDOxemH6fV/KWp/fEMwez77GC3J5ze/A1o/ue4FVz/8fJ8PMGO3ag9
+            drIHyWgs4FYBpQZ1BqA78b6nWJeJ8Zbsv71r+Bpb5UUJBBHZ85Sa13sl3ZN0L0E0
+            XD/NYD1Sh31qoccZU57l6g4PWScxUZYGWc/OeT07HbUjaFzL/YpQZUKH+KoqoIOD
+            UiZkf44ear4dGzNeR0UQ01VIZj7RaJ1uhAZVsNLoqPKGyjmgEZz70DDbMlxEXiMi
+            Q/2Thd3bklr0IpZpL7JwHw9MrVS32NkustFgG6uYv/mvw10Zll9CCAUib3QIGlZV
+            uQIDAQAB
+            -----END PUBLIC KEY-----
     ```
-    
-    This setting can contain a list of multiple token sources. Each of those
-    will be tried in sequence until one of them matches.
+
+2.  `Mw.JwtAuth.security.keyUrl` to specify a `fopen`-able URL from which
+    the key can be retrieved:
+   
+    ```yaml
+    Mw:
+      JwtAuth:
+        security:
+          keyUrl: https://identity.service.consul/key
+    ```
+
+When you specify both settings, the `Mw.JwtAuth.security.key` setting will
+take precedence.
+
+### Claim-to-account mapping
+
+You can also configure how the claims encoded in the JWT should be mapped
+to the TYPO3 Flow user account. For instance, when the JWT claims contain a
+field that describes a user type, you can map this on a TYPO3 Flow role.
+
+Consider a JWT claim like the following:
+
+```json
+{
+    "sub": "my-username",
+    "type": "customer"
+}
+```
+
+By default, the `sub` claim will be used as account identifier for the Flow
+user. You can change this by setting the `Mw.JwtAuth.claimMapping.accountIdentifierField`
+option.
+
+Furthermore, you can configure which claim contains the user role and how
+to map claim values to known user roles:
+
+```yaml
+Mw:
+  JwtAuth:
+    claimMapping:
+      roleField: type
+      roles:
+        customer: My.ExamplePackage:Customer
+        employee: My.ExamplePackage:Employee
+```
+
+### Token sources
+
+You can also configure how the authentication provider should extract the
+JWT from the HTTP request. A JWT can be contained within a cookie, a custom
+request header or a query argument. You can configure the token sources
+using the `Mw.JwtAuth.security.tokenSources`:
+ 
+```yaml
+Mw:
+  JwtAuth:
+    security:
+      tokenSources:
+        - from: header
+          name: X-Your-Custom-Header
+        - from: cookie
+          name: MyCookieName
+```
+
+This setting can contain a list of multiple token sources. Each of those
+will be tried in sequence until one of them matches.
