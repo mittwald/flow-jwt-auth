@@ -11,7 +11,8 @@ This package is [MIT-licensed](LICENSE.txt).
 
 This package implements an authentication provider for TYPO3 Flow that
 authenticates users based on [JSON Web Tokens](http://jwt.io). JWTs can be
-supplied using a custom HTTP header (`X-JWT`).
+supplied using a configurable custom HTTP header (`X-JWT` per default), a
+cookie or a query parameter.
 
 ## Installation
 
