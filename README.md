@@ -1,5 +1,12 @@
 # Stateless authentication with JSON web tokens for TYPO3 Flow
 
+## Author and Copyright
+
+Martin Helmich  
+Mittwald CM Service GmbH & Co. KG
+
+This package is [MIT-licensed](LICENSE.txt).
+
 ## Synopsis
 
 This package implements an authentication provider for TYPO3 Flow that
