@@ -1,5 +1,5 @@
 {
-    "name": "mw/jwtauth",
+    "name": "mittwald-flow/jwt-auth",
     "type": "typo3-flow-package",
     "description": "Authenticate users with JSON web tokens",
     "require": {
