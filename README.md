@@ -96,3 +96,22 @@ settings.
             customer: My.ExamplePackage:Customer
             employee: My.ExamplePackage:Employee
     ```
+
+-   You can also configure how the authentication provider should extract the
+    JWT from the HTTP request. A JWT can be contained within a cookie, a custom
+    request header or a query argument. You can configure the token sources
+    using the `Mw.JwtAuth.security.tokenSources`:
+     
+    ```yaml
+    Mw:
+      JwtAuth:
+        security:
+          tokenSources:
+            - from: header
+              name: X-Your-Custom-Header
+            - from: cookie
+              name: MyCookieName
+    ```
+    
+    This setting can contain a list of multiple token sources. Each of those
+    will be tried in sequence until one of them matches.
