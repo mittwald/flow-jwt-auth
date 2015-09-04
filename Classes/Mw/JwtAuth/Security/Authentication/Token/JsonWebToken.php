@@ -4,6 +4,7 @@ namespace Mw\JwtAuth\Security\Authentication\Token;
 use TYPO3\Flow\Mvc\ActionRequest;
 use TYPO3\Flow\Security\Authentication\Token\AbstractToken;
 use TYPO3\Flow\Security\Authentication\Token\SessionlessTokenInterface;
+use TYPO3\Flow\Annotations as Flow;
 
 class JsonWebToken extends AbstractToken implements SessionlessTokenInterface {
 
